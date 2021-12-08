@@ -30,7 +30,7 @@ after that its just about running the server. and you can access the blog at `ht
 - [x] Add a login system
 - [x] Add a WYSIWYG editor 
 - [x] Add a admin system
-- [] Add a comment system
-- [] Add a search system
-- [] Add a pagination system
-- [] Add a RSS feed system
+- [ ] Add a comment system
+- [ ] Add a search system
+- [ ] Add a pagination system
+- [ ] Add a RSS feed system
