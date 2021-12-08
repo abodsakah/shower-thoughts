@@ -1,0 +1,98 @@
+<%- include("../components/head"), {title:title} %>
+<%- include("../components/nav"), {user:user} %>
+
+<div class="main-content">
+    <div class="section__content section__content--p30">
+        <div class="container-fluid">    
+            <h1 class="heading">Add new Post</h1>
+            <br>
+            <form action="" enctype="multipart/form-data" method="post">
+              <div class="row">
+                <div class="col-lg-8">
+                    <section class="card">
+                      <div class="card-body">
+                        <div class="row form-group">
+                          <div class="col col-md-3">
+                              <label for="text-input" class=" form-control-label">Post Title</label>
+                          </div>
+                          <div class="col-12 col-md-9">
+                            <input type="text" id="text-input" name="title" placeholder="Text" value="<%= post.title %>" class="form-control">
+                          </div>
+                        </div>
+                        <div class="row form-group">
+                          <div class="col col-md-3">
+                            <label for="textarea-input" class=" form-control-label">Post content</label>
+                          </div>
+                          <div class="col-12 col-md-9">
+                            <textarea id="bodyContent" name="bodyContent" style="height: 800px;">
+                              <%- post.content %> 
+                            </textarea>
+                          </div>
+                          </div>
+                      </div>
+                    </section>
+                </div>
+                <div class="col-lg-4">
+                    <section class="card">
+                      <button type="submit" class="btn btn-primary">Publish</button>
+                      <br>
+                      <div class="row form-group m-1">
+                        <div class="col col-md-6">
+                            <label for="select" class=" form-control-label">Visiabilty</label>
+                        </div>
+                        <br>
+                        <div class="col-12 col-md-9">
+                            <select name="status" id="select" class="form-control">
+                              <% if(post.status == 1) { %> 
+                                <option value="1" selected>Public</option>
+                                <option value="0">Private</option>
+                                <% } else { %> 
+                                <option value="1">Public</option>
+                                <option value="0" selected>Private</option>
+                                <% } %>
+                            </select>
+                        </div>
+                    </div>
+                    
+
+                    <div class="row form-group m-1">
+                      <div class="col col-md-6">
+                          <label for="select" class=" form-control-label">Tags</label>
+                      </div>
+                      <br>
+                      <div class="col-12 col-md-9">
+                        <input type="text" class="tags" name="tags" value="<%- post.tags %>" data-role="tagsinput"></input>
+                      </div>
+                  </div>
+                      
+                      <div class="card-body">
+                        <label for="file-input" class=" form-control-label">Main image</label>
+                        <img src="/uploads/<%= post.image %>" alt="">
+                        <input type="file" id="file-input" name="image" class="form-control-file">
+                      </div>
+                    </section>
+              
+                </div>
+              </div>
+            </form>
+    </div>
+</div>
+</div>
+<script>
+  tinymce.init({
+    selector: '#bodyContent',
+    //directionality
+    plugins: 'codesample image   lists anchor anchor autolink code charmap advlist emoticons    link media preview toc wordcount',
+    toolbar: 'undo redo styleselect bold italic alignleft aligncenter alignright alignjustify ltr rtl | bullist  numlist outdent indent link charmap| codesample image imagetools emoticons media | toc | preview wordcount code',
+    toolbar_mode: 'sliding',
+    convert_newlines_to_brs : true,
+    force_br_newlines : true,
+    force_p_newlines : true,
+    forced_root_block : false,
+});
+
+$('input').tagsinput({
+  confirmKeys: [13, 190]
+});
+</script>
+<%- include("../components/footer") %> 

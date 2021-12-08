@@ -1,0 +1,33 @@
+<%- include("../components/header"), {title:title} %>
+<!--Main Navigation-->
+ <header>
+    <!-- Background image -->
+    <div
+            class="p-5 text-center bg-image"
+            style="
+            background-image: url('/uploads/<%- post.image %>');
+            height: 400px;
+          "
+    >
+      <div class="mask" style="background-color: rgba(0, 0, 0, 0.6);">
+        <div class="d-flex justify-content-center align-items-center h-100">
+          <div class="text-white">
+              <% console.log(post.date) %> 
+            <h1 class="mb-3"><%= post.title %></h1>
+            <h4 class="mb-3"><%= post.date %></h4>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Background image -->
+  </header>
+  <br><br>
+  <div class="container">
+      <div class="row">
+          <div class="col-md-8">
+              <%- post.content %> 
+          </div>
+      </div>
+  </div>
+
+<% include("../components/footer") %> 

@@ -1,0 +1,47 @@
+<%- include("../components/header"), {title:title} %>
+<!--Main Navigation-->
+ <!-- Jumbotron -->
+ <div id="intro" class="p-5 text-center bg-light">
+    <img src="/blog/img/logo.png" height="80" alt="Thought shower">
+    <p class="mb-3">Get a teast of my shower thoughts</p>
+  </div>
+  <!-- Jumbotron -->
+<!--Main layout-->
+<main class="my-5">
+  <div class="container">
+    <!--Section: Content-->
+    <section class="text-center">
+      <h4 class="mb-5"><strong>Latest posts</strong></h4>
+
+      <div class="row">
+
+        <% if(posts.length > 0){for(post of posts){ %> 
+            <% console.log(post) %> 
+        <div class="col-lg-4 col-md-12 mb-4">
+          <div class="card">
+            <div class="bg-image hover-overlay ripple" data-mdb-ripple-color="light">
+              <img src="/uploads/<%= post.image %>" class="img-fluid" />
+              <a href="/post?id=<%= post.id %>">
+                <div class="mask" style="background-color: rgba(251, 251, 251, 0.15);"></div>
+              </a>
+            </div>
+            <div class="card-body">
+              <h5 class="card-title"><%- post.title %></h5>
+              <p class="card-text">
+                <small><%= post.author %></small>
+              </p>
+              <a href="/post?id=<%= post.id %>" class="btn btn-primary">Read</a>
+            </div>
+          </div>
+        </div>
+        <% }}else{ %>
+            <h3>Sorry, looks like there is nothing for now!</h3>
+        <% } %>
+      </div>
+    </section>
+    <!--Section: Content-->
+</main>
+<!--Main layout-->
+
+
+<% include("../components/footer") %> 
