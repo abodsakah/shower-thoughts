@@ -13,6 +13,13 @@
     <link rel="stylesheet" href="/blog/css/mdb.min.css" />
     <!-- Custom styles -->
     <link rel="stylesheet" href="/blog/css/style.css" />
+    <!-- Jquery-infinitescroll -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-infinitescroll/4.0.1/infinite-scroll.pkgd.min.js" integrity="sha512-R50vU2SAXi65G4oojvP1NIAC+0WsUN2s+AbkXqoX48WN/ysG3sJLiHuB1yBGTggOu8dl/w2qsm8x4Xr8D/6Hug==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script defer>
+      function toggleNav(){
+        document.getElementById("nav").classList.toggle("collapse");
+      }
+    </script>
 </head>
 <body>
     <header>
@@ -37,14 +44,15 @@
           <img src="/blog/img/logo.png" height="60" alt="" loading="lazy"
             style="margin-top: -3px;" />
         </a>
-        <button class="navbar-toggler" type="button" data-mdb-toggle="collapse" data-mdb-target="#navbarExample01"
-          aria-controls="navbarExample01" aria-expanded="false" aria-label="Toggle navigation">
-          <i class="fas fa-bars"></i>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarExample01">
+        
+        <div class="navbar-toggler"><i class="fas fa-bars" onclick="toggleNav()"></i></div>
+        <div class="collapse navbar-collapse" id="nav">
           <ul class="navbar-nav me-auto mb-2 mb-lg-0">
             <li class="nav-item active">
               <a class="nav-link" aria-current="page" href="/">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" aria-current="page" href="/all-posts">All posts</a>
             </li>
           </ul>
         </div>

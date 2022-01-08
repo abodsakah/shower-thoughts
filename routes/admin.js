@@ -12,7 +12,7 @@ router.get('/', (req, res) => {
         }
         res.render('admin/pages/index', data);
     } else {
-        res.redirect('admin/login');
+        res.redirect('/admin/login');
     }
 });
 
@@ -98,32 +98,42 @@ router.post("/posts/add-new", async (req, res) => {
     if (req.session.user) {
         let title = req.body.title;
         let content = req.body.bodyContent;
-        let image = req.files.image;
         let author = req.session.user.username;
         let tags = req.body.tags;
         let status = req.body.status;
         let date = new Date();
+        tags = tags.split(',');
         
-        try {
-            image.mv(`./public/uploads/${image.name}`, async (err) => {
-                if (err) {
-                    console.log(err);
-                    req.session.errors.append({
-                        msg: `Something went wrong: ${err}`
-                    });
-                    res.redirect('/admin/posts');
-                } else {
-                    try {
-                        await adminDB.createPost(title, image.name, content, tags, date, author, status);
-                    } catch (err) {
+        let image
+        if (req.files) {
+            image = req.files.image;
+
+            try {
+                image.mv(`./public/uploads/${image.name}`, async (err) => {
+                    if (err) {
                         console.log(err);
+                        req.session.errors.append({
+                            msg: `Something went wrong: ${err}`
+                        });
+                        res.redirect('/admin/posts');
+                    } else {
+                        try {
+                            await adminDB.createPost(title, image.name, content, tags, date, author, status);
+                            await adminDB.addTags(tags);
+                        } catch (err) {
+                            console.log(err);
+                        }
                     }
-                }
-            });
-            res.redirect('/admin/posts');
-        } catch (err) {
-            console.log(err);
+                });
+            } catch (err) {
+                console.log(err);
+            }
+        } else {
+            adminDB.createPostWithoutImage(title, content, tags, date, author, status);
         }
+
+        res.redirect('/admin/posts');
+
     } else {
         res.redirect('/admin/login');
     }

@@ -17,15 +17,19 @@ function getUser(username) {
 }
 
 function getPosts() {
-    return db.query(`SELECT * FROM posts`, {type: QueryTypes.SELECT});
+    return db.query(`SELECT * FROM posts WHERE status = 1`, {type: QueryTypes.SELECT});
 }
 
 function createPost(title, image, content, tags, date, author, status) {
     return db.query(`INSERT INTO posts (title, image, content, tags, date, author, status) VALUES ('${title}', '${image}', '${content}', '${tags}', '${date}', '${author}', ${status})`);
 }
 
+function createPostWithoutImage(title, content, tags, date, author, status) {
+    return db.query(`INSERT INTO posts (title, content, tags, date, author, status) VALUES ('${title}', '${content}', '${tags}', '${date}', '${author}', ${status})`);
+}
+
 function getPostById(id) {
-    return db.query(`SELECT * FROM posts WHERE id = ${id}`, {type: QueryTypes.SELECT});
+    return db.query(`SELECT * FROM posts WHERE id = ${id} LIMIT 1`, {type: QueryTypes.SELECT});
 }
 
 function updatePost(id, title, image, content, tags, date, author, status) {
@@ -44,13 +48,41 @@ function getLastPosts() {
     return db.query(`SELECT * FROM posts ORDER BY id DESC LIMIT 6`, {type: QueryTypes.SELECT});
 }
 
+function getTags() {
+    return db.query(`SELECT * FROM tags`, {type: QueryTypes.SELECT});
+}
+
+async function addTags(tags) {
+    prevTags = await getTags();
+    
+    if (prevTags.length > 0) {
+        for (let i = 0; i < tags.length; i++) {
+            let tag = tags[i];
+            for (let x = 0; x < prevTags.length; x++) {
+                if (prevTags[x].tag.toLowerCase == tag.toLowerCase) {
+                    tags.splice(i, 1);
+                }
+            }
+        }
+    }
+
+    if (tags.length > 0) {
+        for (let i = 0; i < tags.length; i++) {
+            db.query(`INSERT INTO tags (tag) VALUES ('${tags[i]}')`);
+        }
+    }
+}
+
 module.exports = {
     getUser,
     getPosts,
     createPost,
+    createPostWithoutImage,
     deletePost,
     getLastPosts,
     getPostById,
     updatePost,
-    updatePostNoImage
+    updatePostNoImage,
+    addTags,
+    getTags
 }

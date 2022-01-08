@@ -13,6 +13,9 @@ const postDB = require("./src/adminDB");
 
 const port = process.env.PORT || 3000;
 
+//public folder
+app.use(express.static("./public"));
+
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 app.use(fileUpload());
@@ -45,19 +48,44 @@ app.get("/", async (req, res) => {
 });
 
 app.get("/post", async (req, res) => {
-    let posts;
+    let post;
     let id = req.query.id;
     try {
-        posts = await postDB.getPostById(id);
+        post = await postDB.getPostById(id);
     } catch (err) {
         console.log(err);
     }
     let data = {
         title: "Thought shower",
-        posts: posts
+        post: post[0]
     }
     res.render("blog/pages/post", data);
 });
+
+app.get("/all-posts", async (req, res) => {
+    let page = req.query.page || 1;
+    let perPage = 9;
+    let posts;
+    // TODO: Get all tags and display them on top of the page
+    // Add search abilty
+    try {
+        posts = await postDB.getPosts();
+    }
+    catch (err) {
+        console.log(err);
+    }
+    let amount_pages = Math.ceil(posts.length / perPage);
+
+    posts = posts.slice((page - 1) * perPage, page * perPage);
+    let data = {
+        title: "Thought shower",
+        posts: posts,
+        page: page,
+        amount_pages
+    }
+    res.render("blog/pages/all-posts", data);
+});
+
 
 app.use((req, res, next) => {
     console.log(`${req.method} request for '${req.url}' - ${JSON.stringify(req.body)}`);
