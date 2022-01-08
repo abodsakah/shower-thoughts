@@ -67,7 +67,7 @@ router.get("/posts", async (req, res) => {
     if (req.session.user) {
         let posts;
         try {
-            posts = await adminDB.getPosts();
+            posts = await adminDB.getAllPosts();
         } catch (err) {
             console.log(err);
         }

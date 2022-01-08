@@ -20,6 +20,10 @@ function getPosts() {
     return db.query(`SELECT * FROM posts WHERE status = 1`, {type: QueryTypes.SELECT});
 }
 
+function getAllPosts() {
+    return db.query(`SELECT * FROM posts`, {type: QueryTypes.SELECT});
+}
+
 function createPost(title, image, content, tags, date, author, status) {
     return db.query(`INSERT INTO posts (title, image, content, tags, date, author, status) VALUES ('${title}', '${image}', '${content}', '${tags}', '${date}', '${author}', ${status})`);
 }
@@ -76,6 +80,7 @@ async function addTags(tags) {
 module.exports = {
     getUser,
     getPosts,
+    getAllPosts,
     createPost,
     createPostWithoutImage,
     deletePost,
