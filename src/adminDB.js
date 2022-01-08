@@ -49,7 +49,7 @@ function deletePost(id) {
 }
 
 function getLastPosts() {
-    return db.query(`SELECT * FROM posts ORDER BY id DESC LIMIT 6`, {type: QueryTypes.SELECT});
+    return db.query(`SELECT * FROM posts WHERE status = 1 ORDER BY id DESC LIMIT 6`, {type: QueryTypes.SELECT});
 }
 
 function getTags() {
